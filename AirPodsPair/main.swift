@@ -5,7 +5,6 @@
 //  Created by Joe Manto on 1/3/20.
 //  Copyright © 2020 Joe Manto. All rights reserved.
 //
-
 import Foundation
 import IOBluetooth
 
@@ -92,7 +91,7 @@ func main(){
     
     if let defaultDevice = getDefaultDevice() {
         guard arguments.count != 1 else {
-            print("Please enter the bluetooth name of your airpods for the first connection \n\n\t ex. \("pair joes-airpods") ")
+            print("Please enter the bluetooth name of your airpods for the first connection \n\n\t ex. \("pods joes-airpods") ")
             return
         }
         deviceName = defaultDevice
@@ -104,7 +103,7 @@ func main(){
     }
     
     if(deviceName == nil){
-        print("Please enter the bluetooth name of your airpods for the first connection \n\n\t ex. \("pair joes-airpods") ")
+        print("Please enter the bluetooth name of your airpods for the first connection \n\n\t ex. \("pods joes-airpods") ")
         return
     }
     
@@ -122,10 +121,6 @@ func main(){
 }
 
 main()
-
-
-
-
 
 
 
