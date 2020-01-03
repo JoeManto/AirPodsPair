@@ -79,8 +79,6 @@ func flushDefaultDevice() -> Void {
     UserDefaults.standard.set(nil,forKey: "targetDevice")
 }
 
-
-
 func main(){
     var deviceName:String?
     let tarDevice:IOBluetoothDevice?
