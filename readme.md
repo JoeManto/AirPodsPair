@@ -5,9 +5,11 @@
 ``$ pods <substring of airpods display name>`` **or** `pods`
 ##### On First Connection
 `$ pods <substring of airpods display name>`
+
 ex. `$ pods joes`
 ##### Using Default Saved Device
 `$ pods`
+
 AirPodsPair will connect to last device that has been paired. AirPodsPair uses UserDefaults to save the last known airpods display name that has been paired successfully in the past and if no arguments are given.
 
 ## Other Possible Use Cases
