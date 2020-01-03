@@ -1,7 +1,10 @@
 # AirPodsPair
 > swift executable or command line tool that can be used in the ternmal or in automation tasks that will attempt to make a bluetooth connection to your airpods.
 
-Main useage is switching from the Iphone connection to your laptop
+The main usage is switching from the Iphone BT connection to your laptop
+<p align="center">
+<img width = "500" src = "https://raw.githubusercontent.com/joemanto/AirPodsPair/master/res/screenshot.png"/>
+</div>
 
 ## Usage
 ``$ pods <substring of airpods display name>`` **or** `pods`
