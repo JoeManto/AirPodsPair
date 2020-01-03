@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		708106D023BF9D4D00787E30 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708106CF23BF9D4D00787E30 /* main.swift */; };
+		708106D723BFBC3600787E30 /* extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708106D623BFBC3600787E30 /* extentions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		708106CC23BF9D4D00787E30 /* AirPodsPair */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AirPodsPair; sourceTree = BUILT_PRODUCTS_DIR; };
 		708106CF23BF9D4D00787E30 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		708106D623BFBC3600787E30 /* extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extentions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				708106CF23BF9D4D00787E30 /* main.swift */,
+				708106D623BFBC3600787E30 /* extentions.swift */,
 			);
 			path = AirPodsPair;
 			sourceTree = "<group>";
@@ -120,6 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				708106D723BFBC3600787E30 /* extentions.swift in Sources */,
 				708106D023BF9D4D00787E30 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
