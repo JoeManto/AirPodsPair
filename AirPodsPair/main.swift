@@ -90,10 +90,6 @@ func main(){
     }
     
     if let defaultDevice = getDefaultDevice() {
-        guard arguments.count != 1 else {
-            print("Please enter the bluetooth name of your airpods for the first connection \n\n\t ex. \("pods joes-airpods") ")
-            return
-        }
         deviceName = defaultDevice
     }
     
