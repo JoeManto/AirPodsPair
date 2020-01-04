@@ -38,5 +38,5 @@ clone the project and place the `pods` executable in `/usr/local/bin` and your o
 #### Quick Install Command
 Notice: The Pods executable will be moved to your `local/bin` and the **cloned repo will be deleted** 
 
-`% git clone https://github.com/JoeManto/AirPodsPair.git && sudo cp AirPodsPair/pods /usr/local && sudo rm -r AirPodsPair`
+`git clone https://github.com/JoeManto/AirPodsPair.git && sudo cp AirPodsPair/pods /usr/local && sudo rm -r AirPodsPair`
 
