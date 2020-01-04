@@ -17,12 +17,22 @@ ex. `$ pods joes`
 
 AirPodsPair will connect to last device that has been paired. AirPodsPair uses UserDefaults to save the last known airpods display name that has been paired successfully in the past and if no arguments are given.
 
+##### Flush Saved Default Device
+
+* Overwrite the last connected device
+`$ pods another-device`
+
+or
+* Manually flush UserDefaults
+`$ pods -f`
+
 ## Other Possible Use Cases
 * Can be used inside Automator
     * Automatically connect your airpods when Spotify is opened 
-* Can be used in in Apple-Scripts
+* Can be used in in AppleScript
 
 ## Installation 
 
 clone the project and place the `pods` executable in `/usr/local/bin` and your off 🚀
+
 
