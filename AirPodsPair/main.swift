@@ -60,7 +60,6 @@ func pair(device:IOBluetoothDevice) -> Bool {
     
     //attempt to pair device
     if(device.openConnection() == KERN_SUCCESS){
-        print("✅ Airpods Connected")
         return true
     }
     
@@ -98,18 +97,24 @@ func main(){
         isRecentDevice = false
     }
     
+    /*
     if(deviceName == nil){
         print("Please enter the bluetooth name of your airpods for the first connection \n\n\t ex. \("pods joes-airpods") ")
         return
+    }*/
+    
+    if let deviceToSearch = deviceName {
+        tarDevice = search(for:deviceToSearch,isRecentDevice)
+    }else{
+        print("Please enter the bluetooth name of your airpods for the first connection \n\n\t ex. \("pods joes-airpods") ")
+        return
     }
-    
-    tarDevice = search(for:deviceName!,isRecentDevice)
-    
-    if(tarDevice != nil){
-        if(!pair(device: tarDevice!)){
+   
+    if let targetDevice = tarDevice {
+        if(!pair(device: targetDevice)){
             print("bluetooth pairing timed out - your pods may be out of range or dead ❗️")
         }else{
-            
+            print("✅ Airpods Connected")
         }
     }else{
         print("Device was not found")
