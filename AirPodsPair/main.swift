@@ -12,6 +12,18 @@ let pairedDevices = IOBluetoothDevice.pairedDevices()!
 
 let arguments = CommandLine.arguments
 
+func setDefaultDevice(deviceName:String!) -> Void {
+    UserDefaults.standard.set(deviceName, forKey: "targetDevice")
+}
+
+func getDefaultDevice() -> String? {
+    return UserDefaults.standard.string(forKey: "targetDevice")
+}
+
+func flushDefaultDevice() -> Void {
+    UserDefaults.standard.set(nil,forKey: "targetDevice")
+}
+
 func match(targetName:String,deviceName:String) -> Bool {
     
     let target:NSString = targetName.lowercased() as NSString
@@ -66,17 +78,6 @@ func pair(device:IOBluetoothDevice) -> Bool {
     return false
 }
 
-func setDefaultDevice(deviceName:String!) -> Void {
-    UserDefaults.standard.set(deviceName, forKey: "targetDevice")
-}
-func getDefaultDevice() -> String? {
-    return UserDefaults.standard.string(forKey: "targetDevice")
-}
-
-func flushDefaultDevice() -> Void {
-    UserDefaults.standard.set(nil,forKey: "targetDevice")
-}
-
 func main(){
     var deviceName:String?
     let tarDevice:IOBluetoothDevice?
@@ -85,6 +86,17 @@ func main(){
     //Flush Option - Removes the default device
     if(arguments.count > 1 && arguments[1] == "-f"){
         flushDefaultDevice()
+        return
+    }
+    //List Paired Devices
+    if(arguments.count > 1 && arguments[1] == "-l"){
+        print("Display Names:")
+        pairedDevices.forEach{ device in
+            if let d = device as? IOBluetoothDevice {
+                let name = d.name ?? "this device has no name 🤷🏼‍♂️"
+                print("-\t\(name)")
+            }
+        }
         return
     }
     
@@ -96,12 +108,6 @@ func main(){
         deviceName = arguments[1]
         isRecentDevice = false
     }
-    
-    /*
-    if(deviceName == nil){
-        print("Please enter the bluetooth name of your airpods for the first connection \n\n\t ex. \("pods joes-airpods") ")
-        return
-    }*/
     
     if let deviceToSearch = deviceName {
         tarDevice = search(for:deviceToSearch,isRecentDevice)
