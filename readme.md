@@ -1,5 +1,5 @@
 # AirPodsPair
-> swift executable or command line tool that can be used in the ternmal or in automation tasks that will attempt to make a bluetooth connection to your airpods or really any device :).
+> Executable that can be used in the ternmal or in automation tasks that will attempt to make a bluetooth connection to your airpods or really any device :)
 
 The main usage is switching from the Iphone BT connection to your laptop
 <p align="center">
