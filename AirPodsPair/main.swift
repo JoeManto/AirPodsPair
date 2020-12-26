@@ -8,9 +8,8 @@
 import Foundation
 import IOBluetooth
 
-let pairedDevices = IOBluetoothDevice.pairedDevices()!
-
 let arguments = CommandLine.arguments
+var pairedDevices:[IOBluetoothDevice]!
 
 func setDefaultDevice(deviceName:String!) -> Void {
     UserDefaults.standard.set(deviceName, forKey: "targetDevice")
@@ -21,67 +20,75 @@ func getDefaultDevice() -> String? {
 }
 
 func flushDefaultDevice() -> Void {
-    UserDefaults.standard.set(nil,forKey: "targetDevice")
+    UserDefaults.standard.set(nil, forKey: "targetDevice")
 }
 
-func match(targetName:String,deviceName:String) -> Bool {
+func match(targetName: inout String, pairedDeviceName: inout String) -> Bool {
+    targetName = targetName.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
+    targetName = targetName.lowercased()
+    pairedDeviceName = pairedDeviceName.components(separatedBy: CharacterSet.alphanumerics.inverted).joined()
+    pairedDeviceName = pairedDeviceName.lowercased()
     
-    let target:NSString = targetName.lowercased() as NSString
-    let device:NSString = deviceName.lowercased() as NSString
-    
-    var set:Set<UniChar> = Set<UniChar>.init()
-    var count = 0
-    
-    for i in 0...target.length - 1 {
-        set.insert(target.character(at: i))
-    }
-    
-    for i in 0...device.length - 1 {
-        if(set.contains(device.character(at:i))){
-            count+=1
-        }
-    }
-    
-    return count > target.length
+    return pairedDeviceName.contains(targetName)
 }
 
-func search(for deviceName:String,_ isRecentDevice:Bool = true) -> IOBluetoothDevice? {
+func search(for targetName:String) -> IOBluetoothDevice? {
+    var target = targetName
+    var matches: [IOBluetoothDevice] = []
+    
     for i in 0...pairedDevices.count-1 {
-        let device = pairedDevices[i] as? IOBluetoothDevice
+        let pairedDevice = pairedDevices[i]
+        guard var actual = pairedDevice.name else {
+            continue
+        }
         
-        if(device?.name == deviceName || (!isRecentDevice && match(targetName: deviceName, deviceName: (device?.name)!)) ){
-            
-            if(!isRecentDevice){setDefaultDevice(deviceName: device?.name)}
-            print("... Found \(device?.name ?? "but, the device has no name 🤷🏼‍♂️")")
-            return device
+        if actual == target || match(targetName: &target, pairedDeviceName: &actual) {
+            setDefaultDevice(deviceName: actual)
+            print("... Found \(actual)")
+            matches.append(pairedDevice)
         }
     }
-    return nil
+    
+    if matches.count == 0 {
+        return nil
+    }
+    
+    if matches.count > 1 {
+        print("Multiple devices found attempting to connect \(matches[0].name as String)")
+    }
+    
+    return matches[0]
 }
 
-func pair(device:IOBluetoothDevice) -> Bool {
-    
+func connect(_ device:IOBluetoothDevice) -> Bool {
     print("... Attempting to pair to \(device.name as String)")
     
-    //device is already connected
+    // Device is already connected
     if(device.isConnected())
     {
-        print("... \(device.name as String) are already paired")
+        print("... \(device.name as String) - already paired")
         return true
     }
     
-    //attempt to pair device
-    if(device.openConnection() == KERN_SUCCESS){
-        return true
-    }
-    
-    return false
+    return device.openConnection() == KERN_SUCCESS
 }
 
-func main(){
-    var deviceName:String?
-    let tarDevice:IOBluetoothDevice?
-    var isRecentDevice = true
+func listPairedDevices() {
+    print("Display Names:")
+    pairedDevices.forEach{ device in
+        print("-\t\(device.name as String)")
+    }
+}
+
+func main() {
+    var target:String
+    
+    guard let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice],
+       devices.count > 0 else {
+        print("System has no paired device to connect to")
+        return
+    }
+    pairedDevices = devices
 
     //Flush Option - Removes the default device
     if(arguments.count > 1 && arguments[1] == "-f"){
@@ -90,37 +97,27 @@ func main(){
     }
     //List Paired Devices
     if(arguments.count > 1 && arguments[1] == "-l"){
-        print("Display Names:")
-        pairedDevices.forEach{ device in
-            if let d = device as? IOBluetoothDevice {
-                let name = d.name ?? "this device has no name 🤷🏼‍♂️"
-                print("-\t\(name)")
-            }
-        }
+        listPairedDevices()
         return
     }
     
-    if let defaultDevice = getDefaultDevice() {
-        deviceName = defaultDevice
+    if let defaultDevice = getDefaultDevice(),
+       arguments.count == 1 {
+        target = defaultDevice
     }
-    
-    if arguments.count > 1 {
-        deviceName = arguments[1]
-        isRecentDevice = false
+    else if arguments.count > 1 && arguments[1].count > 0 {
+        target = arguments[1]
     }
-    
-    if let deviceToSearch = deviceName {
-        tarDevice = search(for:deviceToSearch,isRecentDevice)
-    }else{
-        print("Please enter the bluetooth name of your airpods for the first connection \n\n\t ex. \("pods joes-airpods") ")
+    else {
+        print("Please enter a substring of the bluetooth display name of the device you wish to connect \n\n\t ex. \("pods airpods") \n pods -l to list display names")
         return
     }
-   
-    if let targetDevice = tarDevice {
-        if(!pair(device: targetDevice)){
-            print("bluetooth pairing timed out - your pods may be out of range or dead ❗️")
+ 
+    if let device = search(for: target) {
+        if(!connect(device)){
+            print("Bluetooth connection timed out - your pods may be out of range or dead ❗️")
         }else{
-            print("✅ Airpods Connected")
+            print("✅ Connected")
         }
     }else{
         print("Device was not found")
@@ -128,6 +125,7 @@ func main(){
 }
 
 main()
+
 
 
 
