@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 # Pods
 not to be confused with `pod` or cocoa-pods
 > Executable that can be used in the terminal or in automation tasks that will attempt to make a bluetooth connection to your AirPods or really any device :)
 
 AirPods automatically connect to their last connected device. For me that is 9/10 always my Iphone, so this project finds its use cases as an executable for automated tasks and as a nice convenience if your already coding. 
+=======
+# AirPodsPair
+> Executable that can be used in the ternmal or in automation tasks that will attempt to make a bluetooth connection to your airpods or really any device :)
+>>>>>>> 73693f64f69070e3f963438e6623e1617c7d38b6
 
 <p align="center">
 <img width = "500" src = "https://raw.githubusercontent.com/joemanto/AirPodsPair/master/res/screenshot.png"/>
